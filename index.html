@@ -71,12 +71,12 @@
                     <h2 class="text-lg font-semibold text-white mb-4">Input Content</h2>
                     <form id="content-form" class="space-y-5">
                         <div>
-                            <label for="source-content" class="block text-sm font-medium text-slate-300 mb-2">Paste your article, blog post, or ideas</label>
+                            <label for="source-content" class="block text-sm font-medium text-slate-300 mb-2">Paste your article, blog post, ideas, or video URL (YouTube, TikTok, Instagram)</label>
                             <textarea 
                                 id="source-content" 
                                 rows="10" 
                                 class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg p-4 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 placeholder-slate-500 resize-none transition-all"
-                                placeholder="E.g., In recent years, artificial intelligence has fundamentally transformed how we interact with technology..."
+                                placeholder="E.g., https://www.youtube.com/watch?v=... or In recent years, artificial intelligence has fundamentally transformed how we interact with technology..."
                             ></textarea>
                         </div>
                         
@@ -105,14 +105,14 @@
                 <div class="glass-card p-6 h-full flex flex-col">
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="text-lg font-semibold text-white">Thread Preview</h2>
-                        <button class="text-xs bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700/50 transition-colors flex items-center gap-1.5">
+                        <button id="copy-btn" class="text-xs bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700/50 transition-colors flex items-center gap-1.5">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            Copy Thread
+                            <span id="copy-text">Copy Thread</span>
                         </button>
                     </div>
 
                     <!-- Thread Items -->
-                    <div class="space-y-0 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+                    <div id="thread-container" class="space-y-0 flex-1 overflow-y-auto pr-2 custom-scrollbar">
                         <!-- Tweet 1 -->
                         <div class="relative pl-8 pb-6 border-l-2 border-slate-700/50 last:border-0 last:pb-0 ml-2">
                             <div class="absolute w-4 h-4 bg-indigo-500 rounded-full -left-[9px] top-1 ring-4 ring-slate-800"></div>
