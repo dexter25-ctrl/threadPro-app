@@ -1,11 +1,11 @@
 # Threadify Pro (MVP)
 
-Ce projet est un prototype permettant de générer des threads Twitter/X à partir de vidéos YouTube en utilisant l'API d'OpenAI et la transcription des vidéos.
+Ce projet est un prototype permettant de générer des threads Twitter/X à partir de vidéos YouTube en utilisant l'API Google Gemini et la transcription des vidéos.
 
 ## Prérequis
 
 - Node.js (v14 ou supérieur)
-- Une clé API OpenAI
+- Une clé API Google Gemini
 
 ## Installation
 
@@ -14,10 +14,10 @@ Ce projet est un prototype permettant de générer des threads Twitter/X à part
    ```bash
    npm install
    ```
-3. Copiez le fichier `.env.example` vers `.env` et ajoutez votre clé API OpenAI :
+3. Copiez le fichier `.env.example` vers `.env` et ajoutez votre clé API Gemini :
    ```bash
    cp .env.example .env
-   # Éditez .env et ajoutez votre OPENAI_API_KEY
+   # Éditez .env et ajoutez votre GEMINI_API_KEY
    ```
 
 ## Utilisation

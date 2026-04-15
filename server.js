@@ -2,15 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { YoutubeTranscript } = require('youtube-transcript');
-const { OpenAI } = require('openai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Helper to detect if a string is a video URL
 function isVideoUrl(str) {
@@ -56,7 +54,7 @@ app.post('/api/generate', async (req, res) => {
             textToAnalyze = inputContent;
         }
 
-        console.log("Generating thread with OpenAI...");
+        console.log("Generating thread with Gemini...");
 
         const systemPrompt = `
 Tu es un expert en création de threads Twitter/X.
@@ -71,16 +69,20 @@ Réponds avec un thread dynamique et engageant. Sépare chaque tweet par une dou
 
         const userPrompt = `Voici le contenu à analyser :\n\n${textToAnalyze}\n\nCrée un thread à partir de ce contenu.`;
 
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o",
-            messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: userPrompt }
-            ],
-            temperature: 0.3,
+        const model = genAI.getGenerativeModel({
+            model: "gemini-1.5-flash",
+            systemInstruction: systemPrompt,
         });
 
-        const threadText = completion.choices[0].message.content;
+        const result = await model.generateContent({
+            contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+            generationConfig: {
+                temperature: 0.3,
+            }
+        });
+
+        const response = result.response;
+        const threadText = response.text();
         const threadItems = threadText.split('\n\n').filter(item => item.trim() !== '');
 
         res.json({ threadItems });
