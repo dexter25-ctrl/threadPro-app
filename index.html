@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content-to-Thread MVP</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- External Script containing Tailwind Config and App Logic -->
+    <script src="script.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            /* Fallback background if Tailwind fails */
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            background-attachment: fixed;
+            color: #f8fafc;
+        }
+        
+        /* Glassmorphism Card Utility */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 0.75rem;
+        }
+
+        /* Custom scrollbar for thread preview */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-slate-100 font-sans antialiased p-6 md:p-12">
+    
+    <div class="max-w-5xl mx-auto space-y-8">
+        <!-- Header -->
+        <header class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+                    <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Threadify Pro
+                </h1>
+                <p class="text-slate-400 mt-1 text-sm">Enterprise Content-to-Thread SaaS</p>
+            </div>
+            <nav>
+                <button class="text-sm font-medium text-slate-300 hover:text-white transition-colors bg-white/5 border border-white/10 px-4 py-2 rounded-lg hover:bg-white/10">Dashboard</button>
+            </nav>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left Column: Input -->
+            <section class="space-y-6">
+                <div class="glass-card p-6">
+                    <h2 class="text-lg font-semibold text-white mb-4">Input Content</h2>
+                    <form id="content-form" class="space-y-5">
+                        <div>
+                            <label for="source-content" class="block text-sm font-medium text-slate-300 mb-2">Paste your article, blog post, or ideas</label>
+                            <textarea 
+                                id="source-content" 
+                                rows="10" 
+                                class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg p-4 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 placeholder-slate-500 resize-none transition-all"
+                                placeholder="E.g., In recent years, artificial intelligence has fundamentally transformed how we interact with technology..."
+                            ></textarea>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-xs text-slate-400 font-medium">Tone:</span>
+                                <select class="bg-slate-900/50 border border-slate-700/50 rounded-md text-xs text-slate-300 px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500/50">
+                                    <option>Professional</option>
+                                    <option>Engaging</option>
+                                    <option>Analytical</option>
+                                </select>
+                            </div>
+                            <span class="text-xs text-slate-500">~2500 words limit</span>
+                        </div>
+                        
+                        <button class="w-full py-3 px-4 rounded-lg font-semibold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-indigo-500 transition-all shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            Generate Thread
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Right Column: Output Preview -->
+            <section class="space-y-6">
+                <div class="glass-card p-6 h-full flex flex-col">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-lg font-semibold text-white">Thread Preview</h2>
+                        <button class="text-xs bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700/50 transition-colors flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            Copy Thread
+                        </button>
+                    </div>
+
+                    <!-- Thread Items -->
+                    <div class="space-y-0 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+                        <!-- Tweet 1 -->
+                        <div class="relative pl-8 pb-6 border-l-2 border-slate-700/50 last:border-0 last:pb-0 ml-2">
+                            <div class="absolute w-4 h-4 bg-indigo-500 rounded-full -left-[9px] top-1 ring-4 ring-slate-800"></div>
+                            <div class="bg-slate-800/40 rounded-xl p-4 border border-slate-700/30 shadow-sm hover:border-slate-600/50 transition-colors">
+                                <p class="text-sm text-slate-200 leading-relaxed">
+                                    1/ AI is no longer just a buzzword; it's a fundamental shift in how businesses operate. From automating routine tasks to generating complex insights, the landscape is evolving rapidly. 🚀
+                                </p>
+                                <div class="mt-3 flex items-center gap-4 text-slate-500">
+                                    <svg class="w-4 h-4 hover:text-indigo-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                                    <svg class="w-4 h-4 hover:text-green-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                    <svg class="w-4 h-4 hover:text-pink-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tweet 2 -->
+                        <div class="relative pl-8 pb-6 border-l-2 border-slate-700/50 last:border-0 last:pb-0 ml-2">
+                            <div class="absolute w-4 h-4 bg-slate-700 rounded-full -left-[9px] top-1 ring-4 ring-slate-800"></div>
+                            <div class="bg-slate-800/40 rounded-xl p-4 border border-slate-700/30 shadow-sm hover:border-slate-600/50 transition-colors">
+                                <p class="text-sm text-slate-200 leading-relaxed">
+                                    2/ But how do you actually implement it without getting bogged down in technical debt? Start small. Identify high-friction, low-value processes and automate those first.
+                                </p>
+                                <div class="mt-3 flex items-center gap-4 text-slate-500">
+                                    <svg class="w-4 h-4 hover:text-indigo-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                                    <svg class="w-4 h-4 hover:text-green-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                    <svg class="w-4 h-4 hover:text-pink-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tweet 3 -->
+                        <div class="relative pl-8 pb-6 border-l-2 border-slate-700/50 last:border-0 last:pb-0 ml-2">
+                            <div class="absolute w-4 h-4 bg-slate-700 rounded-full -left-[9px] top-1 ring-4 ring-slate-800"></div>
+                            <div class="bg-slate-800/40 rounded-xl p-4 border border-slate-700/30 shadow-sm hover:border-slate-600/50 transition-colors">
+                                <p class="text-sm text-slate-200 leading-relaxed">
+                                    3/ The key is adoption, not just implementation. Tools are only as good as the team's willingness to use them. Train your staff, provide support, and show them the direct benefits to their workflow. 👇
+                                </p>
+                                <div class="mt-3 flex items-center gap-4 text-slate-500">
+                                    <svg class="w-4 h-4 hover:text-indigo-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                                    <svg class="w-4 h-4 hover:text-green-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                    <svg class="w-4 h-4 hover:text-pink-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="pt-8 text-center border-t border-slate-800/50">
+            <p class="text-xs text-slate-500 font-medium">© 2024 Threadify Pro. Enterprise SaaS MVP.</p>
+        </footer>
+    </div>
+</body>
+</html>
