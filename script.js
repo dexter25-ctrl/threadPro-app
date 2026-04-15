@@ -15,45 +15,6 @@ tailwind.config = {
     }
 };
 
-// Helper to detect if a string is a video URL
-function isVideoUrl(str) {
-    const urlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|tiktok\.com|instagram\.com).+$/i;
-    return urlPattern.test(str.trim());
-}
-
-// Mock function to simulate generating a thread from a video URL or text
-function generateMockThread(input) {
-    const trimmedInput = input.trim();
-
-    // Check if it's a known video URL
-    if (isVideoUrl(trimmedInput)) {
-        let platform = "Video";
-        if (trimmedInput.includes("youtube") || trimmedInput.includes("youtu.be")) platform = "YouTube";
-        if (trimmedInput.includes("tiktok")) platform = "TikTok";
-        if (trimmedInput.includes("instagram")) platform = "Instagram";
-
-        return [
-            `1/ Just watched an incredible ${platform} video and had to break it down. 🧵 Here are the key takeaways you need to know. 👇`,
-            `2/ The creator started by addressing a massive problem we all face, but framed it in a completely new way. Instead of focusing on the symptoms, they dove straight into the root cause. 🤯`,
-            `3/ The turning point was when they introduced their core framework. It's shockingly simple: Consistency > Intensity. They showed real examples of how small daily actions compound over time. 📈`,
-            `4/ One of the most counterintuitive points: "Stop trying to optimize everything." Sometimes the best way to move forward is to embrace the messy middle and just keep executing. 💡`,
-            `5/ TL;DR: \n- Focus on root causes, not symptoms\n- Consistency beats intensity\n- Embrace the messy middle\n\nWhat are your thoughts on this approach? Drop a reply below! 👇`
-        ];
-    }
-
-    // Default mock response for generic text
-    if (trimmedInput.length === 0) {
-        return ["Please enter some text or a video URL to generate a thread!"];
-    }
-
-    return [
-        `1/ Here is a summary of the text you provided. The main idea is fascinating and definitely worth a deep dive. 🧵👇`,
-        `2/ The first key point highlights the importance of understanding the foundational concepts before jumping into complex implementations. 🏗️`,
-        `3/ Furthermore, the text emphasizes that adaptability is crucial in today's fast-paced environment. Those who pivot quickly win. ⚡`,
-        `4/ In conclusion, it's all about executing on these core principles consistently. Thanks for reading this thread! Retweet to share with your audience. 🚀`
-    ];
-}
-
 // Application Logic
 document.addEventListener('DOMContentLoaded', () => {
     const contentForm = document.getElementById('content-form');
@@ -63,6 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyText = document.getElementById('copy-text');
 
     let currentThread = [];
+
+    // Basic HTML sanitizer to prevent XSS
+    function escapeHTML(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
 
     // Helper to render thread items into the UI
     function renderThread(threadItems) {
@@ -76,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Determine circle color based on index for a bit of variety (first is indigo, rest are slate)
             const circleColor = index === 0 ? 'bg-indigo-500' : 'bg-slate-700';
 
-            // Format line breaks in text for HTML
-            const formattedText = text.replace(/\n/g, '<br>');
+            // Escape HTML to prevent XSS, then format line breaks
+            const formattedText = escapeHTML(text).replace(/\n/g, '<br>');
 
             const threadHtml = `
                 <div class="relative pl-8 pb-6 border-l-2 border-slate-700/50 ${isLast ? 'last:border-0 last:pb-0' : ''} ml-2">
@@ -100,30 +71,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (contentForm) {
-        contentForm.addEventListener('submit', (event) => {
+        contentForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const inputText = sourceContentInput ? sourceContentInput.value : '';
+
+            if (!inputText.trim()) {
+                alert("Veuillez entrer une URL.");
+                return;
+            }
 
             // Show a simple loading state on the button
             const submitBtn = contentForm.querySelector('button[type="submit"]') || contentForm.querySelector('button');
             const originalBtnHtml = submitBtn.innerHTML;
             if(submitBtn) {
-                submitBtn.innerHTML = 'Generating...';
+                submitBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Generating...';
                 submitBtn.disabled = true;
             }
 
-            // Simulate a brief API delay
-            setTimeout(() => {
-                currentThread = generateMockThread(inputText);
+            try {
+                const response = await fetch('http://localhost:3000/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ url: inputText })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Erreur lors de la génération du thread.');
+                }
+
+                currentThread = data.threadItems;
                 renderThread(currentThread);
 
+            } catch (error) {
+                console.error('API Error:', error);
+                renderThread([`❌ Erreur : ${error.message}`]);
+                currentThread = [];
+            } finally {
                 // Restore button state
                 if(submitBtn) {
                     submitBtn.innerHTML = originalBtnHtml;
                     submitBtn.disabled = false;
                 }
-            }, 800);
+            }
         });
     }
 
