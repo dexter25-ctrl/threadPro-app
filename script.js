@@ -22,8 +22,80 @@ document.addEventListener('DOMContentLoaded', () => {
     const threadContainer = document.getElementById('thread-container');
     const copyBtn = document.getElementById('copy-btn');
     const copyText = document.getElementById('copy-text');
+    const langToggleBtn = document.getElementById('lang-toggle');
 
     let currentThread = [];
+    let currentLang = 'fr'; // Default to French as requested
+
+    const translations = {
+        fr: {
+            subtitle: "SaaS d'entreprise : De contenu à Thread",
+            dashboard: "Tableau de bord",
+            inputTitle: "Contenu source",
+            inputLabel: "Collez votre article, blog ou idées",
+            inputPlaceholder: "Ex : Ces dernières années, l'intelligence artificielle a fondamentalement transformé...",
+            toneLabel: "Ton :",
+            toneProfessional: "Professionnel",
+            toneEngaging: "Engageant",
+            toneAnalytical: "Analytique",
+            wordLimit: "Limite de ~2500 mots",
+            generateBtn: "Générer le Thread",
+            previewTitle: "Aperçu du Thread",
+            copyBtn: "Copier le Thread",
+            footer: "© 2024 Threadify Pro. Enterprise SaaS MVP.",
+            errorEmpty: "Veuillez entrer du texte.",
+            generating: "Génération...",
+            copied: "Copié !"
+        },
+        en: {
+            subtitle: "Enterprise Content-to-Thread SaaS",
+            dashboard: "Dashboard",
+            inputTitle: "Input Content",
+            inputLabel: "Paste your article, blog post, or ideas",
+            inputPlaceholder: "E.g., In recent years, artificial intelligence has fundamentally transformed how we interact with technology...",
+            toneLabel: "Tone:",
+            toneProfessional: "Professional",
+            toneEngaging: "Engaging",
+            toneAnalytical: "Analytical",
+            wordLimit: "~2500 words limit",
+            generateBtn: "Generate Thread",
+            previewTitle: "Thread Preview",
+            copyBtn: "Copy Thread",
+            footer: "© 2024 Threadify Pro. Enterprise SaaS MVP.",
+            errorEmpty: "Please enter some text.",
+            generating: "Generating...",
+            copied: "Copied!"
+        }
+    };
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+
+        // Update toggle button text to show the *other* language
+        if (langToggleBtn) {
+            langToggleBtn.innerText = lang === 'fr' ? 'EN' : 'FR';
+        }
+
+        // Update all elements with data-i18n attribute
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) {
+                if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
+                    el.placeholder = translations[lang][key];
+                } else {
+                    el.innerText = translations[lang][key];
+                }
+            }
+        });
+    }
+
+    if (langToggleBtn) {
+        langToggleBtn.addEventListener('click', () => {
+            const newLang = currentLang === 'fr' ? 'en' : 'fr';
+            setLanguage(newLang);
+        });
+    }
 
     // Basic HTML sanitizer to prevent XSS
     function escapeHTML(str) {
@@ -77,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const inputText = sourceContentInput ? sourceContentInput.value : '';
 
             if (!inputText.trim()) {
-                alert("Veuillez entrer une URL.");
+                alert(translations[currentLang].errorEmpty);
                 return;
             }
 
@@ -85,7 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitBtn = contentForm.querySelector('button[type="submit"]') || contentForm.querySelector('button');
             const originalBtnHtml = submitBtn.innerHTML;
             if(submitBtn) {
-                submitBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Generating...';
+                const generatingText = translations[currentLang].generating;
+                submitBtn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> ${generatingText}`;
                 submitBtn.disabled = true;
             }
 
@@ -133,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Temporarily change button text to indicate success
                 if (copyText) {
                     const originalText = copyText.innerText;
-                    copyText.innerText = 'Copied!';
+                    copyText.innerText = translations[currentLang].copied;
                     setTimeout(() => {
                         copyText.innerText = originalText;
                     }, 2000);
