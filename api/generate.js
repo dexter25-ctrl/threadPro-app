@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         }
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
         const prompt = `Transforme le texte suivant en un thread Twitter captivant de 5 tweets maximum. Sépare chaque tweet par une double ligne vide. Texte : ${textInput}`;
 
