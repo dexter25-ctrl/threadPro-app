@@ -11,7 +11,27 @@
 
 body {
     background-color: var(--bg-dark);
+    background-image: url('https://images.unsplash.com/photo-1611605698335-8b1569810432?q=80&w=1920&auto=format&fit=crop');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
     color: var(--text-primary);
+}
+
+/* DexTool Signature */
+.dextool-signature {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: #00E5FF;
+    text-shadow: 0 0 5px rgba(0, 229, 255, 0.5), 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+/* Main Container Glassmorphism */
+.main-container {
+    background: rgba(15, 23, 42, 0.7) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Glassmorphism Card Utility */
