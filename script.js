@@ -36,8 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
             inputPlaceholder: "Ex : Ces dernières années, l'intelligence artificielle a fondamentalement transformé...",
             toneLabel: "Ton :",
             toneProfessional: "Professionnel",
-            toneEngaging: "Engageant",
-            toneAnalytical: "Analytique",
+            toneCreative: "Créatif",
+            toneHumorous: "Humoristique",
+            toneSarcastic: "Sarcastique",
+            toneEducational: "Éducatif",
+            toneMinimalist: "Minimaliste",
+            toneControversial: "Controversé",
+            toneStoryteller: "Storyteller",
+            toneUrgency: "Urgence",
+            tonePhilosophical: "Philosophique",
             wordLimit: "Limite de ~2500 mots",
             generateBtn: "Générer le Thread",
             previewTitle: "Aperçu du Thread",
@@ -45,7 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
             footer: "© 2024 ThreadPro. Enterprise SaaS MVP.",
             errorEmpty: "Veuillez entrer du texte.",
             generating: "Génération...",
-            copied: "Copié !"
+            copied: "Copié !",
+            limitReached: "Limite gratuite atteinte (5/5)",
+            upgradePrompt: "Passez à DexStudio Pro pour débloquer des tons illimités et des générations professionnelles.",
+            upgradeBtn: "Passer Pro",
+            communityFeedback: "Retours de la communauté",
+            reviewPlaceholder: "Partagez votre avis sur l'outil...",
+            submitReviewBtn: "Soumettre l'avis",
+            daysAgo2: "Il y a 2 jours",
+            weekAgo1: "Il y a 1 semaine",
+            review1: "Les différents tons sont incroyables ! Le mode 'Storyteller' a complètement transformé mes posts LinkedIn. Je recommande la version Pro.",
+            review2: "Très bon outil pour gagner du temps. L'interface est super propre et le mode sombre est parfait. Seul bémol : la limite des 5 générations arrive vite !"
         },
         en: {
             subtitle: "Enterprise Content-to-Thread SaaS",
@@ -55,8 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
             inputPlaceholder: "E.g., In recent years, artificial intelligence has fundamentally transformed how we interact with technology...",
             toneLabel: "Tone:",
             toneProfessional: "Professional",
-            toneEngaging: "Engaging",
-            toneAnalytical: "Analytical",
+            toneCreative: "Creative",
+            toneHumorous: "Humorous",
+            toneSarcastic: "Sarcastic",
+            toneEducational: "Educational",
+            toneMinimalist: "Minimalist",
+            toneControversial: "Controversial",
+            toneStoryteller: "Storyteller",
+            toneUrgency: "Urgency",
+            tonePhilosophical: "Philosophical",
             wordLimit: "~2500 words limit",
             generateBtn: "Generate Thread",
             previewTitle: "Thread Preview",
@@ -64,7 +88,17 @@ document.addEventListener('DOMContentLoaded', () => {
             footer: "© 2024 ThreadPro. Enterprise SaaS MVP.",
             errorEmpty: "Please enter some text.",
             generating: "Generating...",
-            copied: "Copied!"
+            copied: "Copied!",
+            limitReached: "Free limit reached (5/5)",
+            upgradePrompt: "Upgrade to DexStudio Pro to unlock unlimited tones and professional generations.",
+            upgradeBtn: "Upgrade Now",
+            communityFeedback: "Community Feedback",
+            reviewPlaceholder: "Share your thoughts on the tool...",
+            submitReviewBtn: "Submit Review",
+            daysAgo2: "2 days ago",
+            weekAgo1: "1 week ago",
+            review1: "The different tones are incredible! 'Storyteller' mode completely transformed my LinkedIn posts. Highly recommend the Pro version.",
+            review2: "Great tool to save time. The interface is super clean and the dark mode is perfect. Only downside: the 5-generation limit comes quickly!"
         }
     };
 
@@ -142,11 +176,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Tone simulation logic to show how it alters output
+    function getTonePrefix(tone) {
+        const tonePrefixes = {
+            'Professional': '💼 [Professional]',
+            'Creative': '🎨 [Creative]',
+            'Humorous': '😂 [Humorous]',
+            'Sarcastic': '😏 [Sarcastic]',
+            'Educational': '📚 [Educational]',
+            'Minimalist': '✨ [Minimalist]',
+            'Controversial': '🔥 [Controversial]',
+            'Storyteller': '📖 [Storyteller]',
+            'Urgency': '⏰ [Urgency]',
+            'Philosophical': '🤔 [Philosophical]'
+        };
+        return tonePrefixes[tone] || tonePrefixes['Professional'];
+    }
+
+    let generationCount = 0;
+    const MAX_GENERATIONS = 5;
+
     if (contentForm) {
         contentForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
+            if (generationCount >= MAX_GENERATIONS) {
+                return; // Guard against form submission if limit reached (should be locked anyway)
+            }
+
             const inputText = sourceContentInput ? sourceContentInput.value : '';
+            const toneSelector = document.getElementById('tone-selector');
+            const selectedTone = toneSelector ? toneSelector.value : 'Professional';
 
             if (!inputText.trim()) {
                 alert(translations[currentLang].errorEmpty);
@@ -168,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ url: inputText })
+                    body: JSON.stringify({ url: inputText, tone: selectedTone })
                 });
 
                 const data = await response.json();
@@ -178,21 +238,83 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 currentThread = data.threadItems;
+                
+                // Simulate tone behavior if the server doesn't support it natively yet
+                // For demonstration, we prefix the first item with a tone indicator
+                if (currentThread.length > 0) {
+                    currentThread[0] = getTonePrefix(selectedTone) + ' ' + currentThread[0];
+                }
+                
                 renderThread(currentThread);
+                
+                // Increment generation counter
+                generationCount++;
+                
+                if (generationCount >= MAX_GENERATIONS) {
+                    // Lock interface
+                    if (toneSelector) {
+                        toneSelector.disabled = true;
+                        toneSelector.classList.add('opacity-50', 'cursor-not-allowed');
+                    }
+                    if (submitBtn) {
+                        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                        // Ensure we don't restore it to enabled
+                    }
+                    const usageBanner = document.getElementById('usage-limit-banner');
+                    if (usageBanner) {
+                        usageBanner.classList.remove('hidden');
+                    }
+                }
 
             } catch (error) {
                 console.error('API Error:', error);
                 renderThread([`❌ Erreur : ${error.message}`]);
                 currentThread = [];
             } finally {
-                // Restore button state
-                if(submitBtn) {
+                // Restore button state if not locked
+                if (submitBtn && generationCount < MAX_GENERATIONS) {
                     submitBtn.innerHTML = originalBtnHtml;
                     submitBtn.disabled = false;
+                } else if (submitBtn) {
+                    // Keep the text but leave it disabled
+                    submitBtn.innerHTML = originalBtnHtml;
                 }
             }
         });
     }
+
+    // Interactive Stars Logic
+    const interactiveStars = document.querySelectorAll('#interactive-stars i');
+    let currentRating = 0;
+
+    interactiveStars.forEach((star, index) => {
+        star.addEventListener('mouseover', () => {
+            // Highlight up to the hovered star
+            interactiveStars.forEach((s, i) => {
+                if (i <= index) s.classList.add('hover-active');
+                else s.classList.remove('hover-active');
+            });
+        });
+
+        star.addEventListener('mouseout', () => {
+            // Remove hover highlight
+            interactiveStars.forEach(s => s.classList.remove('hover-active'));
+        });
+
+        star.addEventListener('click', () => {
+            // Set active rating
+            currentRating = index + 1;
+            interactiveStars.forEach((s, i) => {
+                if (i <= index) {
+                    s.classList.add('active');
+                    s.classList.remove('text-slate-600');
+                } else {
+                    s.classList.remove('active');
+                    s.classList.add('text-slate-600');
+                }
+            });
+        });
+    });
 
     // Copy Thread Functionality
     if (copyBtn) {

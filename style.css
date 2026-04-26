@@ -119,3 +119,14 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+
+/* Star Rating Glow */
+#interactive-stars i.active,
+#interactive-stars i.hover-active {
+    color: #EC4899; /* Tailwind Pink 500 */
+    text-shadow: 0 0 10px rgba(236, 72, 153, 0.6), 0 0 20px rgba(236, 72, 153, 0.4);
+}
+
+.review-stars {
+    text-shadow: 0 0 8px rgba(236, 72, 153, 0.5);
+}

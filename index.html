@@ -58,10 +58,17 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3">
                                 <span class="text-xs text-slate-400 font-medium" data-i18n="toneLabel">Ton :</span>
-                                <select class="custom-input rounded-md text-xs px-3 py-1.5 focus:outline-none">
-                                    <option data-i18n="toneProfessional">Professionnel</option>
-                                    <option data-i18n="toneEngaging">Engageant</option>
-                                    <option data-i18n="toneAnalytical">Analytique</option>
+                                <select id="tone-selector" class="custom-input rounded-md text-xs px-3 py-1.5 focus:outline-none">
+                                    <option value="Professional" data-i18n="toneProfessional">Professionnel</option>
+                                    <option value="Creative" data-i18n="toneCreative">Créatif</option>
+                                    <option value="Humorous" data-i18n="toneHumorous">Humoristique</option>
+                                    <option value="Sarcastic" data-i18n="toneSarcastic">Sarcastique</option>
+                                    <option value="Educational" data-i18n="toneEducational">Éducatif</option>
+                                    <option value="Minimalist" data-i18n="toneMinimalist">Minimaliste</option>
+                                    <option value="Controversial" data-i18n="toneControversial">Controversé</option>
+                                    <option value="Storyteller" data-i18n="toneStoryteller">Storyteller</option>
+                                    <option value="Urgency" data-i18n="toneUrgency">Urgence</option>
+                                    <option value="Philosophical" data-i18n="tonePhilosophical">Philosophique</option>
                                 </select>
                             </div>
                             <span class="text-xs text-slate-500" data-i18n="wordLimit">Limite de ~2500 mots</span>
@@ -70,6 +77,15 @@
                         <button type="submit" id="generate-btn" class="w-full py-3 px-4 rounded-lg font-semibold text-white premium-btn flex items-center justify-center gap-2">
                             <span id="generate-btn-text" data-i18n="generateBtn">Générer le Thread</span>
                         </button>
+
+                        <!-- Usage Limiter Banner -->
+                        <div id="usage-limit-banner" class="hidden mt-4 p-4 rounded-xl border border-pink-500/30 bg-pink-500/10 backdrop-blur-md text-center">
+                            <p class="text-pink-400 font-semibold text-sm mb-2"><i class="fas fa-crown mr-2"></i><span data-i18n="limitReached">Limite gratuite atteinte (5/5)</span></p>
+                            <p class="text-slate-300 text-xs mb-3" data-i18n="upgradePrompt">Passez à DexStudio Pro pour débloquer des tons illimités et des générations professionnelles.</p>
+                            <button type="button" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold py-2 px-4 rounded-lg shadow-[0_0_15px_rgba(236,72,153,0.5)] hover:shadow-[0_0_25px_rgba(236,72,153,0.7)] transition-all" data-i18n="upgradeBtn">
+                                Upgrade Now
+                            </button>
+                        </div>
                     </form>
                 </div>
             </section>
@@ -92,6 +108,64 @@
                 </div>
             </section>
         </main>
+
+        <!-- Community Feedback Section -->
+        <section class="glass-card p-6 mt-8 border-t border-white/5">
+            <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <i class="fas fa-comments text-pink-500"></i> <span data-i18n="communityFeedback">Community Feedback</span>
+            </h2>
+            
+            <!-- Input area -->
+            <div class="space-y-4 mb-8">
+                <div class="flex items-center gap-2" id="interactive-stars">
+                    <i class="fas fa-star cursor-pointer text-slate-600 hover:text-pink-500 transition-colors text-lg" data-value="1"></i>
+                    <i class="fas fa-star cursor-pointer text-slate-600 hover:text-pink-500 transition-colors text-lg" data-value="2"></i>
+                    <i class="fas fa-star cursor-pointer text-slate-600 hover:text-pink-500 transition-colors text-lg" data-value="3"></i>
+                    <i class="fas fa-star cursor-pointer text-slate-600 hover:text-pink-500 transition-colors text-lg" data-value="4"></i>
+                    <i class="fas fa-star cursor-pointer text-slate-600 hover:text-pink-500 transition-colors text-lg" data-value="5"></i>
+                </div>
+                <textarea id="review-input" rows="3" class="w-full custom-input rounded-lg p-4 text-sm focus:outline-none placeholder-slate-500 resize-none" data-i18n="reviewPlaceholder" placeholder="Partagez votre avis sur l'outil..."></textarea>
+                <button type="button" class="py-2 px-4 rounded-lg font-semibold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm" data-i18n="submitReviewBtn">
+                    Soumettre l'avis
+                </button>
+            </div>
+
+            <!-- Reviews List -->
+            <div class="space-y-4">
+                <!-- Review 1 -->
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white">AL</div>
+                            <div>
+                                <p class="text-sm font-semibold text-white">Alex D.</p>
+                                <p class="text-xs text-slate-400" data-i18n="daysAgo2">Il y a 2 jours</p>
+                            </div>
+                        </div>
+                        <div class="text-pink-500 text-xs flex gap-1 review-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-300" data-i18n="review1">Les différents tons sont incroyables ! Le mode 'Storyteller' a complètement transformé mes posts LinkedIn. Je recommande la version Pro.</p>
+                </div>
+                <!-- Review 2 -->
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-pink-500 to-orange-400 flex items-center justify-center text-xs font-bold text-white">SJ</div>
+                            <div>
+                                <p class="text-sm font-semibold text-white">Sarah J.</p>
+                                <p class="text-xs text-slate-400" data-i18n="weekAgo1">Il y a 1 semaine</p>
+                            </div>
+                        </div>
+                        <div class="text-pink-500 text-xs flex gap-1 review-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-300" data-i18n="review2">Très bon outil pour gagner du temps. L'interface est super propre et le mode sombre est parfait. Seul bémol : la limite des 5 générations arrive vite !</p>
+                </div>
+            </div>
+        </section>
         
         <!-- Footer -->
         <footer class="pt-8 text-center border-t border-slate-800/50">
