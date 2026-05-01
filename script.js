@@ -338,4 +338,90 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // --- COOKIE MANAGEMENT LOGIC ---
+    const cookieBanner = document.getElementById('cookie-banner');
+    const privacyModal = document.getElementById('privacy-modal');
+    const customizeModal = document.getElementById('customize-modal');
+    
+    const btnAccept = document.getElementById('cookie-accept');
+    const btnRefuse = document.getElementById('cookie-refuse');
+    const btnCustomize = document.getElementById('cookie-customize');
+    const btnSavePref = document.getElementById('save-preferences');
+    const btnOpenPrivacy = document.getElementById('open-privacy');
+    
+    const closeButtons = document.querySelectorAll('.close-modal');
+    
+    // Check if user already made a choice
+    const cookieChoice = localStorage.getItem('threadpro-cookie-consent');
+    
+    if (!cookieChoice) {
+        setTimeout(() => {
+            if (cookieBanner) cookieBanner.classList.remove('translate-y-[200%]');
+        }, 1500);
+    }
+    
+    function saveConsent(preferences) {
+        localStorage.setItem('threadpro-cookie-consent', JSON.stringify(preferences));
+        if (cookieBanner) cookieBanner.classList.add('translate-y-[200%]');
+        console.log('ThreadPro Cookies saved:', preferences);
+    }
+
+    // Accept All
+    if (btnAccept) {
+        btnAccept.addEventListener('click', () => {
+            saveConsent({ technical: true, analytics: true });
+        });
+    }
+    
+    // Refuse All (except technical)
+    if (btnRefuse) {
+        btnRefuse.addEventListener('click', () => {
+            saveConsent({ technical: true, analytics: false });
+        });
+    }
+    
+    // Open Customize Modal
+    if (btnCustomize) {
+        btnCustomize.addEventListener('click', () => {
+            customizeModal.classList.remove('invisible', 'opacity-0');
+            customizeModal.querySelector('.glass-card').classList.remove('scale-95');
+        });
+    }
+    
+    // Save Custom Preferences
+    if (btnSavePref) {
+        btnSavePref.addEventListener('click', () => {
+            const analytics = document.getElementById('cookie-analytics').checked;
+            saveConsent({ technical: true, analytics: analytics });
+            closeAllModals();
+        });
+    }
+    
+    // Privacy Modal
+    if (btnOpenPrivacy) {
+        btnOpenPrivacy.addEventListener('click', () => {
+            privacyModal.classList.remove('invisible', 'opacity-0');
+            privacyModal.querySelector('.glass-card').classList.remove('scale-95');
+        });
+    }
+    
+    function closeAllModals() {
+        [privacyModal, customizeModal].forEach(modal => {
+            if (modal) {
+                modal.classList.add('invisible', 'opacity-0');
+                modal.querySelector('.glass-card').classList.add('scale-95');
+            }
+        });
+    }
+
+    // Close Modals
+    closeButtons.forEach(btn => {
+        btn.addEventListener('click', closeAllModals);
+    });
+    
+    // Close modal on outside click
+    window.addEventListener('click', (e) => {
+        if (e.target === privacyModal || e.target === customizeModal) closeAllModals();
+    });
 });
