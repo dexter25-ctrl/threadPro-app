@@ -60,6 +60,7 @@
             
             <footer class="sidebar-footer">
                 <p>Antigravity Dev</p>
+                <button id="open-privacy" class="footer-link">Politique de confidentialité</button>
             </footer>
         </aside>
         
@@ -157,6 +158,96 @@
             </div>
         </main>
     </div>
+    <!-- Cookie Banner -->
+    <div id="cookie-banner" class="cookie-banner glass-panel glow-effect">
+        <div class="cookie-content">
+            <div class="cookie-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path><path d="M8.5 8.5v.01"></path><path d="M16 15.5v.01"></path><path d="M12 12v.01"></path><path d="M11 17v.01"></path><path d="M7 14v.01"></path></svg>
+            </div>
+            <div class="cookie-text">
+                <h3>Gestion des Cookies</h3>
+                <p>Nous utilisons des cookies pour améliorer votre expérience sur notre plateforme de conformité.</p>
+            </div>
+        </div>
+        <div class="cookie-actions">
+            <button id="cookie-refuse" class="btn-cookie secondary">Refuser</button>
+            <button id="cookie-customize" class="btn-cookie secondary">Personnaliser</button>
+            <button id="cookie-accept" class="btn-cookie primary">Tout accepter</button>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="modal-overlay">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>Politique de Confidentialité</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <section>
+                    <h3>1. Collecte des données</h3>
+                    <p>Nous collectons uniquement les données nécessaires à l'audit de votre conformité RGPD. Vos données sont chiffrées et stockées en France.</p>
+                </section>
+                <section>
+                    <h3>2. Utilisation des cookies</h3>
+                    <p>Les cookies nous permettent d'analyser le trafic et de mémoriser vos préférences de navigation.</p>
+                </section>
+                <section>
+                    <h3>3. Vos droits</h3>
+                    <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles.</p>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button class="cta-button close-modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customize Cookies Modal -->
+    <div id="customize-modal" class="modal-overlay">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>Personnaliser les Cookies</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="cookie-option">
+                    <div class="option-info">
+                        <h4>Technique (Obligatoire)</h4>
+                        <p>Essentiels au fonctionnement du site.</p>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <input type="checkbox" id="cookie-tech" checked disabled>
+                        <label for="cookie-tech"></label>
+                    </div>
+                </div>
+                <div class="cookie-option">
+                    <div class="option-info">
+                        <h4>Analytique</h4>
+                        <p>Nous aide à comprendre comment vous utilisez le site.</p>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <input type="checkbox" id="cookie-analytics" checked>
+                        <label for="cookie-analytics"></label>
+                    </div>
+                </div>
+                <div class="cookie-option">
+                    <div class="option-info">
+                        <h4>Marketing</h4>
+                        <p>Utilisé pour vous proposer des contenus adaptés.</p>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <input type="checkbox" id="cookie-marketing">
+                        <label for="cookie-marketing"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-preferences" class="cta-button">Enregistrer les préférences</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
