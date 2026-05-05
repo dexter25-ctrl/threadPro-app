@@ -62,7 +62,9 @@ body {
     filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
     animation: brain-float 4s ease-in-out infinite;
     transform: translateZ(0); /* Base plane */
-    background: transparent !important; /* Ensure no background */
+    background: transparent !important;
+    border-radius: 50%; /* Solution A: Circle Mask */
+    clip-path: circle(48% at 50% 50%); /* Cleanest cut for corners */
 }
 
 .orbital-ring {
