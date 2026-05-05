@@ -36,9 +36,18 @@
 </head>
 <body class="min-h-screen font-sans antialiased p-4 sm:p-8 md:p-12">
     
-    <div class="max-w-5xl mx-auto space-y-8 main-container p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl">
+    <div class="max-w-5xl mx-auto space-y-8 main-container p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl relative overflow-hidden">
+        <!-- Particle Background -->
+        <div class="particles-bg">
+            <div class="particle" style="width: 2px; height: 2px; left: 15%; top: 80%; animation-duration: 25s;"></div>
+            <div class="particle" style="width: 3px; height: 3px; left: 45%; top: 90%; animation-duration: 30s; animation-delay: 5s;"></div>
+            <div class="particle" style="width: 1.5px; height: 1.5px; left: 75%; top: 70%; animation-duration: 20s; animation-delay: 2s;"></div>
+            <div class="particle" style="width: 2.5px; height: 2.5px; left: 25%; top: 60%; animation-duration: 35s; animation-delay: 8s;"></div>
+            <div class="particle" style="width: 2px; height: 2px; left: 85%; top: 85%; animation-duration: 28s; animation-delay: 4s;"></div>
+        </div>
+
         <!-- Header -->
-        <header class="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-0 text-center sm:text-left">
+        <header class="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-0 text-center sm:text-left relative z-10">
             <div>
                 <div class="flex flex-col sm:flex-row items-center sm:items-baseline gap-2 sm:gap-3">
                     <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-3">
@@ -50,7 +59,7 @@
                                 <div class="neuron neuron-4"></div>
                                 <div class="neuron neuron-5"></div>
                             </div>
-                            <img src="brain_transparent.png" alt="ThreadPro Brain" class="brain-img">
+                            <img src="neon_brain.png" alt="ThreadPro Brain" class="brain-img">
                         </div>
                         ThreadPro
                     </h1>

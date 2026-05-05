@@ -10,12 +10,36 @@
 }
 
 body {
-    background-color: var(--bg-dark);
-    background-image: url('https://images.unsplash.com/photo-1611605698335-8b1569810432?q=80&w=1920&auto=format&fit=crop');
-    background-size: cover;
+    background-color: #050b18;
+    background-image: radial-gradient(circle at center, #050b18 0%, #000000 100%);
     background-attachment: fixed;
-    background-position: center;
     color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* Background Glows */
+body::before, body::after {
+    content: '';
+    position: fixed;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -2;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+body::before {
+    top: -10vw;
+    left: -10vw;
+    background: radial-gradient(circle, #8B5CF6, transparent 70%); /* Violet Glow */
+}
+
+body::after {
+    bottom: -10vw;
+    right: -10vw;
+    background: radial-gradient(circle, #3B82F6, transparent 70%); /* Blue Glow */
 }
 
 /* DexTool Signature */
@@ -56,15 +80,15 @@ body {
 
 .brain-img {
     position: relative;
-    width: 85%;
-    height: 85%;
+    width: 90%;
+    height: 90%;
     object-fit: contain;
-    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 30px rgba(139, 92, 246, 0.3));
     animation: brain-float 4s ease-in-out infinite;
-    transform: translateZ(0); /* Base plane */
+    transform: translateZ(0);
     background: transparent !important;
-    border-radius: 50%; /* Solution A: Circle Mask */
-    clip-path: circle(48% at 50% 50%); /* Cleanest cut for corners */
+    border-radius: 50%;
+    clip-path: circle(49% at 50% 50%);
 }
 
 .orbital-ring {
@@ -108,8 +132,29 @@ body {
 }
 
 @keyframes brain-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.02); }
+}
+
+/* Particle Animation */
+.particles-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.2;
+    animation: float-particle linear infinite;
+}
+
+@keyframes float-particle {
+    from { transform: translateY(0) translateX(0); }
+    to { transform: translateY(-100vh) translateX(20px); }
 }
 
 /* Premium Button Styling */
