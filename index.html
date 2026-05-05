@@ -171,38 +171,10 @@
             </div>
 
             <!-- Reviews List -->
-            <div class="space-y-4">
-                <!-- Review 1 -->
-                <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white shrink-0">AL</div>
-                            <div>
-                                <p class="text-sm font-semibold text-white">Alex D.</p>
-                                <p class="text-xs text-slate-400" data-i18n="daysAgo2">Il y a 2 jours</p>
-                            </div>
-                        </div>
-                        <div class="text-pink-500 text-xs flex gap-1 review-stars">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="text-sm text-slate-300" data-i18n="review1">Les différents tons sont incroyables ! Le mode 'Storyteller' a complètement transformé mes posts LinkedIn. Je recommande la version Pro.</p>
-                </div>
-                <!-- Review 2 -->
-                <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-pink-500 to-orange-400 flex items-center justify-center text-xs font-bold text-white shrink-0">SJ</div>
-                            <div>
-                                <p class="text-sm font-semibold text-white">Sarah J.</p>
-                                <p class="text-xs text-slate-400" data-i18n="weekAgo1">Il y a 1 semaine</p>
-                            </div>
-                        </div>
-                        <div class="text-pink-500 text-xs flex gap-1 review-stars">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                        </div>
-                    </div>
-                    <p class="text-sm text-slate-300" data-i18n="review2">Très bon outil pour gagner du temps. L'interface est super propre et le mode sombre est parfait. Seul bémol : la limite des 5 générations arrive vite !</p>
+            <div id="reviews-list" class="space-y-4 mt-6">
+                <!-- Dynamic content will be injected here -->
+                <div id="no-reviews-msg" class="text-center py-8 text-slate-400 italic text-sm">
+                    <span data-i18n="noReviews">Aucun commentaire pour le moment. Soyez le premier à donner votre avis !</span>
                 </div>
             </div>
         </section>

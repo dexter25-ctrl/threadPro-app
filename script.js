@@ -59,10 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             communityFeedback: "Retours de la communauté",
             reviewPlaceholder: "Partagez votre avis sur l'outil...",
             submitReviewBtn: "Soumettre l'avis",
-            daysAgo2: "Il y a 2 jours",
-            weekAgo1: "Il y a 1 semaine",
-            review1: "Les différents tons sont incroyables ! Le mode 'Storyteller' a complètement transformé mes posts LinkedIn. Je recommande la version Pro.",
-            review2: "Très bon outil pour gagner du temps. L'interface est super propre et le mode sombre est parfait. Seul bémol : la limite des 5 générations arrive vite !"
+            noReviews: "Aucun commentaire pour le moment. Soyez le premier à donner votre avis !",
+            justNow: "À l'instant",
+            errorEmptyReview: "Veuillez entrer un commentaire et une note."
         },
         en: {
             subtitle: "Enterprise Content-to-Thread SaaS",
@@ -95,10 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
             communityFeedback: "Community Feedback",
             reviewPlaceholder: "Share your thoughts on the tool...",
             submitReviewBtn: "Submit Review",
-            daysAgo2: "2 days ago",
-            weekAgo1: "1 week ago",
-            review1: "The different tones are incredible! 'Storyteller' mode completely transformed my LinkedIn posts. Highly recommend the Pro version.",
-            review2: "Great tool to save time. The interface is super clean and the dark mode is perfect. Only downside: the 5-generation limit comes quickly!"
+            noReviews: "No reviews yet. Be the first to share your thoughts!",
+            justNow: "Just now",
+            errorEmptyReview: "Please enter a comment and a rating."
         }
     };
 
@@ -315,6 +313,83 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+    
+    // Review Submission Logic
+    const submitReviewBtn = document.querySelector('[data-i18n="submitReviewBtn"]');
+    const reviewInput = document.getElementById('review-input');
+    const reviewsList = document.getElementById('reviews-list');
+    const noReviewsMsg = document.getElementById('no-reviews-msg');
+    
+    let reviews = [];
+
+    function renderReviews() {
+        if (!reviewsList || !noReviewsMsg) return;
+        
+        // Remove all current reviews (but keep the no-reviews message for now)
+        const currentReviewElements = reviewsList.querySelectorAll('.review-item');
+        currentReviewElements.forEach(el => el.remove());
+
+        if (reviews.length === 0) {
+            noReviewsMsg.classList.remove('hidden');
+        } else {
+            noReviewsMsg.classList.add('hidden');
+            
+            reviews.forEach(review => {
+                const starsHtml = Array(5).fill(0).map((_, i) => 
+                    `<i class="fas fa-star ${i < review.rating ? 'text-pink-500' : 'text-slate-600'}"></i>`
+                ).join('');
+
+                const reviewHtml = `
+                    <div class="review-item p-4 rounded-xl bg-white/5 border border-white/10 animate-fade-in">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs font-bold text-white shrink-0">U</div>
+                                <div>
+                                    <p class="text-sm font-semibold text-white">Utilisateur</p>
+                                    <p class="text-xs text-slate-400">${translations[currentLang].justNow}</p>
+                                </div>
+                            </div>
+                            <div class="text-xs flex gap-1 review-stars">
+                                ${starsHtml}
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-300">${escapeHTML(review.text)}</p>
+                    </div>
+                `;
+                reviewsList.insertAdjacentHTML('beforeend', reviewHtml);
+            });
+        }
+    }
+
+    if (submitReviewBtn) {
+        submitReviewBtn.addEventListener('click', () => {
+            const text = reviewInput ? reviewInput.value.trim() : '';
+            if (!text || currentRating === 0) {
+                alert(translations[currentLang].errorEmptyReview);
+                return;
+            }
+
+            // Add to reviews array
+            reviews.unshift({
+                text: text,
+                rating: currentRating,
+                date: new Date()
+            });
+
+            // Clear input and rating
+            reviewInput.value = '';
+            currentRating = 0;
+            interactiveStars.forEach(s => {
+                s.classList.remove('active', 'text-pink-500');
+                s.classList.add('text-slate-600');
+            });
+
+            renderReviews();
+        });
+    }
+
+    // Initialize state
+    renderReviews();
 
     // Copy Thread Functionality
     if (copyBtn) {
