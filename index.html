@@ -34,24 +34,24 @@
         })(window, document, "clarity", "script", "wkg5js9du2");
     </script>
 </head>
-<body class="min-h-screen font-sans antialiased p-6 md:p-12">
+<body class="min-h-screen font-sans antialiased p-4 sm:p-8 md:p-12">
     
-    <div class="max-w-5xl mx-auto space-y-8 main-container p-6 md:p-8 rounded-2xl">
+    <div class="max-w-5xl mx-auto space-y-8 main-container p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl">
         <!-- Header -->
-        <header class="flex items-center justify-between">
+        <header class="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-0 text-center sm:text-left">
             <div>
-                <div class="flex items-baseline gap-3">
-                    <h1 class="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
-                        <i class="fas fa-brain e-tech-logo text-3xl"></i>
+                <div class="flex flex-col sm:flex-row items-center sm:items-baseline gap-2 sm:gap-3">
+                    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+                        <i class="fas fa-brain e-tech-logo text-2xl sm:text-3xl"></i>
                         ThreadPro
                     </h1>
                     <span class="dextool-signature">by DexTool</span>
                 </div>
-                <p class="text-slate-400 mt-1 text-sm" data-i18n="subtitle">SaaS d'entreprise : De contenu à Thread</p>
+                <p class="text-slate-400 mt-1 text-xs sm:text-sm" data-i18n="subtitle">SaaS d'entreprise : De contenu à Thread</p>
             </div>
             <nav class="flex items-center gap-3">
-                <button id="lang-toggle" class="text-sm font-medium text-slate-300 hover:text-white transition-colors bg-white/5 border border-white/10 px-3 py-2 rounded-lg hover:bg-white/10">EN</button>
-                <button class="text-sm font-medium text-slate-300 hover:text-white transition-colors bg-white/5 border border-white/10 px-4 py-2 rounded-lg hover:bg-white/10" data-i18n="dashboard">Tableau de bord</button>
+                <button id="lang-toggle" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white transition-colors bg-white/5 border border-white/10 px-3 py-2 rounded-lg hover:bg-white/10">EN</button>
+                <button class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white transition-colors bg-white/5 border border-white/10 px-4 py-2 rounded-lg hover:bg-white/10" data-i18n="dashboard">Tableau de bord</button>
             </nav>
         </header>
 
@@ -65,8 +65,7 @@
                             <label for="source-content" class="block text-sm font-medium text-slate-300 mb-2" data-i18n="inputLabel">Collez votre article, blog ou idées</label>
                             <textarea 
                                 id="source-content" 
-                                rows="10" 
-                                class="w-full custom-input rounded-lg p-4 text-sm focus:outline-none placeholder-slate-500 resize-none"
+                                class="w-full custom-input rounded-lg p-4 text-sm focus:outline-none placeholder-slate-500 resize-none h-48 sm:h-64"
                                 placeholder="Ex : Ces dernières années, l'intelligence artificielle a fondamentalement transformé..."
                                 data-i18n="inputPlaceholder"
                             ></textarea>
@@ -99,7 +98,7 @@
                         <div id="usage-limit-banner" class="hidden mt-4 p-4 rounded-xl border border-pink-500/30 bg-pink-500/10 backdrop-blur-md text-center">
                             <p class="text-pink-400 font-semibold text-sm mb-2"><i class="fas fa-crown mr-2"></i><span data-i18n="limitReached">Limite gratuite atteinte (5/5)</span></p>
                             <p class="text-slate-300 text-xs mb-3" data-i18n="upgradePrompt">Passez à DexStudio Pro pour débloquer des tons illimités et des générations professionnelles.</p>
-                            <button type="button" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold py-2 px-4 rounded-lg shadow-[0_0_15px_rgba(236,72,153,0.5)] hover:shadow-[0_0_25px_rgba(236,72,153,0.7)] transition-all" data-i18n="upgradeBtn">
+                            <button type="button" class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold py-2.5 px-6 rounded-lg shadow-[0_0_15px_rgba(236,72,153,0.5)] hover:shadow-[0_0_25px_rgba(236,72,153,0.7)] transition-all" data-i18n="upgradeBtn">
                                 Upgrade Now
                             </button>
                         </div>
@@ -109,7 +108,7 @@
 
             <!-- Right Column: Output Preview -->
             <section class="space-y-6">
-                <div class="glass-card p-6 h-full flex flex-col">
+                <div class="glass-card p-6 min-h-[400px] lg:h-full flex flex-col">
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="text-lg font-semibold text-white" data-i18n="previewTitle">Aperçu du Thread</h2>
                         <button id="copy-btn" class="text-xs bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700/50 transition-colors flex items-center gap-1.5">
@@ -142,7 +141,7 @@
                     <i class="fas fa-star cursor-pointer text-slate-600 hover:text-pink-500 transition-colors text-lg" data-value="5"></i>
                 </div>
                 <textarea id="review-input" rows="3" class="w-full custom-input rounded-lg p-4 text-sm focus:outline-none placeholder-slate-500 resize-none" data-i18n="reviewPlaceholder" placeholder="Partagez votre avis sur l'outil..."></textarea>
-                <button type="button" class="py-2 px-4 rounded-lg font-semibold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm" data-i18n="submitReviewBtn">
+                <button type="button" class="w-full sm:w-auto py-2.5 px-6 rounded-lg font-semibold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm" data-i18n="submitReviewBtn">
                     Soumettre l'avis
                 </button>
             </div>
@@ -151,9 +150,9 @@
             <div class="space-y-4">
                 <!-- Review 1 -->
                 <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                    <div class="flex items-center justify-between mb-2">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white">AL</div>
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white shrink-0">AL</div>
                             <div>
                                 <p class="text-sm font-semibold text-white">Alex D.</p>
                                 <p class="text-xs text-slate-400" data-i18n="daysAgo2">Il y a 2 jours</p>
@@ -167,9 +166,9 @@
                 </div>
                 <!-- Review 2 -->
                 <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                    <div class="flex items-center justify-between mb-2">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-pink-500 to-orange-400 flex items-center justify-center text-xs font-bold text-white">SJ</div>
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-pink-500 to-orange-400 flex items-center justify-center text-xs font-bold text-white shrink-0">SJ</div>
                             <div>
                                 <p class="text-sm font-semibold text-white">Sarah J.</p>
                                 <p class="text-xs text-slate-400" data-i18n="weekAgo1">Il y a 1 semaine</p>
@@ -193,7 +192,7 @@
         </footer>
     </div>
     <!-- Cookie Banner -->
-    <div id="cookie-banner" class="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:w-[400px] glass-card p-6 z-[1000] translate-y-[200%] transition-transform duration-700 ease-out border-pink-500/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+    <div id="cookie-banner" class="fixed bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 md:left-auto md:right-8 md:w-[400px] glass-card p-6 z-[1000] translate-y-[200%] transition-transform duration-700 ease-out border-pink-500/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
         <div class="flex items-start gap-4 mb-4">
             <div class="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center text-pink-500 shrink-0">
                 <i class="fas fa-cookie-bite text-xl"></i>
