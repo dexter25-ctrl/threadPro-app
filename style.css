@@ -50,27 +50,31 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 800px;
+    perspective: 1200px;
+    transform-style: preserve-3d;
 }
 
 .brain-img {
-    width: 80%;
-    height: 80%;
-    object-contain: contain;
-    z-index: 10;
-    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.4));
+    position: relative;
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
     animation: brain-float 4s ease-in-out infinite;
+    transform: translateZ(0); /* Base plane */
+    background: transparent !important; /* Ensure no background */
 }
 
 .orbital-ring {
     position: absolute;
-    width: 120%;
-    height: 120%;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    width: 130%;
+    height: 130%;
+    border: 1.5px solid rgba(59, 130, 246, 0.3);
     border-radius: 50%;
     transform-style: preserve-3d;
     transform: rotateX(75deg) rotateY(15deg);
     animation: orbit-spin 10s linear infinite;
+    pointer-events: none;
 }
 
 .orbital-ring::before {
