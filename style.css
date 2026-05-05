@@ -44,20 +44,66 @@ body {
     border-radius: 1rem;
 }
 
-/* E-tech Logo Glow Effect */
-.e-tech-logo {
-    color: var(--accent-color);
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.6), 0 0 20px rgba(59, 130, 246, 0.4);
-    animation: pulse-glow 3s infinite alternate;
+/* High-End Brain Logo Component */
+.logo-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 800px;
 }
 
-@keyframes pulse-glow {
-    0% {
-        text-shadow: 0 0 10px rgba(59, 130, 246, 0.6), 0 0 20px rgba(59, 130, 246, 0.4);
-    }
-    100% {
-        text-shadow: 0 0 15px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6);
-    }
+.brain-img {
+    width: 80%;
+    height: 80%;
+    object-contain: contain;
+    z-index: 10;
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.4));
+    animation: brain-float 4s ease-in-out infinite;
+}
+
+.orbital-ring {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    transform: rotateX(75deg) rotateY(15deg);
+    animation: orbit-spin 10s linear infinite;
+}
+
+.orbital-ring::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    border-radius: 50%;
+}
+
+.neuron {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #00E5FF;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00E5FF, 0 0 20px rgba(0, 229, 255, 0.6);
+}
+
+.neuron-1 { top: 0; left: 50%; transform: translate(-50%, -50%); }
+.neuron-2 { bottom: 0; left: 50%; transform: translate(-50%, 50%); }
+.neuron-3 { top: 50%; right: 0; transform: translate(50%, -50%); }
+.neuron-4 { top: 50%; left: 0; transform: translate(-50%, -50%); }
+.neuron-5 { top: 15%; right: 15%; transform: translate(50%, -50%); }
+
+@keyframes orbit-spin {
+    from { transform: rotateX(75deg) rotateY(15deg) rotateZ(0deg); }
+    to { transform: rotateX(75deg) rotateY(15deg) rotateZ(360deg); }
+}
+
+@keyframes brain-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
 }
 
 /* Premium Button Styling */
