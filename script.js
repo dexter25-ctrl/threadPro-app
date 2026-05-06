@@ -61,7 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
             submitReviewBtn: "Soumettre l'avis",
             noReviews: "Aucun commentaire pour le moment. Soyez le premier à donner votre avis !",
             justNow: "À l'instant",
-            errorEmptyReview: "Veuillez entrer un commentaire et une note."
+            errorEmptyReview: "Veuillez entrer un commentaire et une note.",
+            supportText: "L'outil vous aide ? Soutenez mon travail !",
+            supportBtn: "☕ Offrez-moi un café pour soutenir ThreadPro"
         },
         en: {
             subtitle: "Enterprise Content-to-Thread SaaS",
@@ -96,7 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
             submitReviewBtn: "Submit Review",
             noReviews: "No reviews yet. Be the first to share your thoughts!",
             justNow: "Just now",
-            errorEmptyReview: "Please enter a comment and a rating."
+            errorEmptyReview: "Please enter a comment and a rating.",
+            supportText: "Is this tool helpful? Support my work!",
+            supportBtn: "☕ Buy me a coffee to support ThreadPro"
         }
     };
 
