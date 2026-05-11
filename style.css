@@ -10,12 +10,36 @@
 }
 
 body {
-    background-color: var(--bg-dark);
-    background-image: url('https://images.unsplash.com/photo-1611605698335-8b1569810432?q=80&w=1920&auto=format&fit=crop');
-    background-size: cover;
+    background-color: #050b18;
+    background-image: radial-gradient(circle at center, #050b18 0%, #000000 100%);
     background-attachment: fixed;
-    background-position: center;
     color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* Background Glows */
+body::before, body::after {
+    content: '';
+    position: fixed;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -2;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+body::before {
+    top: -10vw;
+    left: -10vw;
+    background: radial-gradient(circle, #8B5CF6, transparent 70%); /* Violet Glow */
+}
+
+body::after {
+    bottom: -10vw;
+    right: -10vw;
+    background: radial-gradient(circle, #3B82F6, transparent 70%); /* Blue Glow */
 }
 
 /* DexTool Signature */
@@ -44,20 +68,93 @@ body {
     border-radius: 1rem;
 }
 
-/* E-tech Logo Glow Effect */
-.e-tech-logo {
-    color: var(--accent-color);
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.6), 0 0 20px rgba(59, 130, 246, 0.4);
-    animation: pulse-glow 3s infinite alternate;
+/* High-End Brain Logo Component */
+.logo-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+    transform-style: preserve-3d;
 }
 
-@keyframes pulse-glow {
-    0% {
-        text-shadow: 0 0 10px rgba(59, 130, 246, 0.6), 0 0 20px rgba(59, 130, 246, 0.4);
-    }
-    100% {
-        text-shadow: 0 0 15px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6);
-    }
+.brain-img {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 30px rgba(139, 92, 246, 0.3));
+    animation: brain-float 4s ease-in-out infinite;
+    transform: translateZ(0);
+    background: transparent !important;
+    border-radius: 50%;
+    clip-path: circle(49% at 50% 50%);
+}
+
+.orbital-ring {
+    position: absolute;
+    width: 130%;
+    height: 130%;
+    border: 1.5px solid rgba(59, 130, 246, 0.3);
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    transform: rotateX(75deg) rotateY(15deg);
+    animation: orbit-spin 10s linear infinite;
+    pointer-events: none;
+}
+
+.orbital-ring::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    border-radius: 50%;
+}
+
+.neuron {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #00E5FF;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00E5FF, 0 0 20px rgba(0, 229, 255, 0.6);
+}
+
+.neuron-1 { top: 0; left: 50%; transform: translate(-50%, -50%); }
+.neuron-2 { bottom: 0; left: 50%; transform: translate(-50%, 50%); }
+.neuron-3 { top: 50%; right: 0; transform: translate(50%, -50%); }
+.neuron-4 { top: 50%; left: 0; transform: translate(-50%, -50%); }
+.neuron-5 { top: 15%; right: 15%; transform: translate(50%, -50%); }
+
+@keyframes orbit-spin {
+    from { transform: rotateX(75deg) rotateY(15deg) rotateZ(0deg); }
+    to { transform: rotateX(75deg) rotateY(15deg) rotateZ(360deg); }
+}
+
+@keyframes brain-float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.02); }
+}
+
+/* Particle Animation */
+.particles-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.2;
+    animation: float-particle linear infinite;
+}
+
+@keyframes float-particle {
+    from { transform: translateY(0) translateX(0); }
+    to { transform: translateY(-100vh) translateX(20px); }
 }
 
 /* Premium Button Styling */
@@ -118,4 +215,23 @@ body {
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.2);
+}
+
+/* Star Rating Glow */
+#interactive-stars i.active,
+#interactive-stars i.hover-active {
+    color: #EC4899; /* Tailwind Pink 500 */
+    text-shadow: 0 0 10px rgba(236, 72, 153, 0.6), 0 0 20px rgba(236, 72, 153, 0.4);
+}
+
+.review-stars {
+    text-shadow: 0 0 8px rgba(236, 72, 153, 0.5);
+}
+.animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
